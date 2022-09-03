@@ -42,6 +42,15 @@ int lengthTillEqual(char *str)
 	}
 	return (i);
 }
+
+int lengthAfterEqual(char *str, int k)
+{
+	int i;
+	while (str[k])
+		i++;
+	return (i);
+}
+
 int _strlen2(const char *str)
 {
 	int i = 0;

@@ -14,7 +14,14 @@
 #define buffsize 1024
 
 extern char **environ;
+typedef struct list{
+	char *dir;
+	struct list *next;
+}list_dir;
 
+int _setenv(const char *, const char *, int);
+int lengthAfterEqual(char *, int);
+list_dir *link_dir(char **);
 char **tokenize_path(char *);
 int lengthTillEqual(char *);
 char *_getenv(const char *);
