@@ -19,6 +19,11 @@ typedef struct list{
 	struct list *next;
 }list_dir;
 
+char *_strcpy(char *, char *);
+char **set_environ(void);
+int _unsetenv(const char *);
+int overwrite_function(int, int, const char *, int *);
+int environ_cmp(const char *, int *, int *);
 int _setenv(const char *, const char *, int);
 int lengthAfterEqual(char *, int);
 list_dir *link_dir(char **);

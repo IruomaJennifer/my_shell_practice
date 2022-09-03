@@ -45,8 +45,8 @@ int lengthTillEqual(char *str)
 
 int lengthAfterEqual(char *str, int k)
 {
-	int i;
-	while (str[k])
+	int i = 0;
+	while (str[k++])
 		i++;
 	return (i);
 }

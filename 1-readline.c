@@ -39,13 +39,6 @@ char *_getline(int fd)
 
 	}
 }
-int _strlen(char *str)
-{ 
-	int count = 0;
-	while (str[count])
-		count++;
-	return(count);
-}
 
 void print(int fd, char *str)
 {
