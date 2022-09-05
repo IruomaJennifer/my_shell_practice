@@ -19,6 +19,12 @@ typedef struct list{
 	struct list *next;
 }list_dir;
 
+int _strcmp(char *, char *);
+void _printenv(void);
+void non_interactive(void);
+char *cmd_check(char *);
+char *get_pathcmd(char *cmd);
+char *_strcat(char *, char *);
 char *_strcpy(char *, char *);
 char **set_environ(void);
 int _unsetenv(const char *);
@@ -30,7 +36,7 @@ list_dir *link_dir(char **);
 char **tokenize_path(char *);
 int lengthTillEqual(char *);
 char *_getenv(const char *);
-void execute(char **);
+void execute(char *, char **);
 char *_getline(int);
 int _strlen(char *);
 int _strlen2(const char *);

@@ -1,6 +1,6 @@
 #include "shell.h"
 
-void execute(char **args)
+void execute(char *cmd, char **args)
 {
 	pid_t cpid;
 	int status;
@@ -13,7 +13,7 @@ void execute(char **args)
 	}
 	if (cpid == 0)
 	{
-		if (execve(args[0], args, environ) == -1)
+		if (execve(cmd, args, environ) == -1)
 		{
 			perror(args[0]);
 			exit(EXIT_FAILURE);

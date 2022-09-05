@@ -1,20 +1,21 @@
 #include "shell.h"
 
 /**
- * main - prints the environment using environ
+ * _printenv - prints the environment using environ
  *
  * Return: Always 0.
  */
-int main(void)
+void _printenv(void)
 {
     unsigned int i;
 
     i = 0;
     while (environ[i] != NULL)
     {
-        printf("%s\n", environ[i]);
+        print(STDOUT_FILENO, environ[i]);
+	print(STDOUT_FILENO, "\n");
         i++;
     }
-    return (0);
+
 }
 
