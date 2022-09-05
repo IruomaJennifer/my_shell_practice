@@ -19,6 +19,7 @@ int main(void)
 		line = _getline(STDIN_FILENO);
 		tokens = _tokenize(line);
 		cmd = cmd_check(tokens[0]);
+		printf("after cmd_check\n");
 		if (cmd == NULL)
 		{
 			perror("./hsh : no such file or directory");

@@ -11,12 +11,15 @@ char *get_pathcmd(char *cmd)
 	directories = tokenize_path(path);
 	while (directories[index])
 	{
+		printf("%s\n", directories[index]);
 		buffer = malloc(_strlen(directories[index]) + 1);
 		if (!buffer)
 			return (NULL);
 		_strcpy(buffer, directories[index]);
 		buffer = _strcat(buffer, "/");
+		printf("%s\n", buffer);
 		buffer = _strcat(buffer, cmd);
+		printf("%s\n", buffer);
 		if (access(buffer, F_OK) == 0)
 		{
 			return(buffer);
