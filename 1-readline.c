@@ -9,10 +9,13 @@
 
 char *_getline(int fd)
 {
-	ssize_t cnt; size_t i = 0;
+	ssize_t cnt; size_t i = 0, oldsize, newsize = 0;
 	char c;
+	char *lineptr;
 
-	char *lineptr = malloc(buffsize);
+	oldsize = buffsize;
+	lineptr = malloc(oldsize);
+
 	if(lineptr == NULL)
 		exit(EXIT_FAILURE);
 
@@ -32,9 +35,11 @@ char *_getline(int fd)
 
 		lineptr[i++] = c;
 		
-		if (i == buffsize)
+		if (i == oldsize)
 		{
-			lineptr = _realloc(lineptr, buffsize, 2 * (buffsize));
+			newsize = oldsize + buffsize;
+			lineptr = _realloc(lineptr, oldsize, newsize);
+			oldsize = newsize;
 		}
 
 	}
