@@ -17,7 +17,6 @@ for (i = 0; i < len; i++)
 
 }
 dest[len] = '\0';
-printf("From strcpy - %s\n", dest);
 return (dest);
 }
 

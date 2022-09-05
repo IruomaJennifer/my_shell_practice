@@ -6,22 +6,22 @@ int main(void)
 	
 	environ = set_environ();
 	_setenv("USERP", "Jenny", 0);
-	/*
+	
 	while (environ[i])
 	{
 		printf("%s\n", environ[i]);
 		i++;
 	}
-	*/
-	/*
+	
+	i = 0;
 	_unsetenv("USERP");
-	_setenv("USER", "gwenyfar", 1);
+	//_setenv("USER", "gwenyfar", 1);
 	while (environ[i])
 	{
 		printf("%s\n", environ[i]);
 		i++;
 	}
-	*/
+	
 	return (0);
 }
 char **set_environ(void)
@@ -40,10 +40,8 @@ char **set_environ(void)
 		a = _strlen(environ[i]);
 		env[i] = malloc(a + 1);
 		_strcpy(env[i], environ[i]);
-		printf("%s\n", env[i]);
 		i++;
 	}
-	printf("After while loop\n");
 	env[i] = NULL;
 	return (env);
 }

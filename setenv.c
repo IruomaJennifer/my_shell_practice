@@ -49,7 +49,6 @@ int overwrite_function(int overwrite, int k, const char *value, int *i)
 			a++;k++;
 		}
 		environ[*i][k] = '\0';
-		printf("%s\n", environ[*i]);
 		return (0);
 	}
 	else
@@ -58,19 +57,41 @@ int overwrite_function(int overwrite, int k, const char *value, int *i)
 
 int _unsetenv(const char *name)
 {
-	int i = 0, k = 0, isname;
+	int i = 0, position = 0, j =0, k = 0, isname;
+	char **tmp;
 	if (!name)
 		return (-1);
 	isname = environvar_cmp(name, &i, &k);
+	while (environ[position++])
+		;
 	if (isname)
 	{
-		free(environ[i]);
-		while (environ[i + 1])
+		tmp = malloc(position * sizeof(char *));
+		for (position = 0; environ[position]; position++, j++)
 		{
-			environ[i] = environ[i + 1];
-			i++;
+			
+			if (position == i)
+			{
+				free(environ[i]);
+				j--;
+				continue;
+			}
+			tmp[j] = malloc(_strlen(environ[position]) + 1);
+			_strcpy(tmp[j], environ[position]);
+			
+			free(environ[position]);
+			
 		}
-		environ[i] = NULL;
+		
+		tmp[j] = NULL;
+		free(environ);
+		environ = tmp;
+		/*
+		i = 0;
+		while (tmp[i])
+			free(tmp[i++]);
+		free(tmp);
+		*/
 		return (0);
 	}
 	else
@@ -105,25 +126,25 @@ int _setenv(const char *name, const char *value ,__attribute__((unused)) int ove
 		environ = _realloc(environ, oldsize, newsize);
 		if (environ == NULL)
 			return (-1);
-		environ[newsize - 2] = malloc(len_name + valp_len + 2);
-		if (environ[newsize - 2] == NULL)
+		environ[env_len] = malloc(len_name + valp_len + 2);
+		if (environ[env_len] == NULL)
 			return (-1);
 		i = 0;
 		while (i < len_name)
 		{
-			environ[newsize - 2][i] = name[i];
+			environ[env_len][i] = name[i];
 			i++;
 		}
-		environ[newsize - 2][i] = '=';
+		environ[env_len][i] = '=';
 		i++;
 		while (a < valp_len)
 		{
-			environ[newsize - 2][i] = value[a];
+			environ[env_len][i] = value[a];
 			a++;
 			i++;
 		}
-		environ[newsize - 2][i] = '\0';
-		environ[newsize - 1] = NULL;
+		environ[env_len][i] = '\0';
+		environ[env_len + 1] = NULL;
 		return (0);
 	}
 }
