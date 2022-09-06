@@ -15,61 +15,62 @@ int isDelimiter(char c)
 
 char **tokenize(char *str)
 {
-	const char *delim = DELIM;
+	char *delim = DELIM;
 	char **tokens = NULL, *token;
-	int count, i, word = 0;
+	int count, i, word = 0, oldsize, newsize, j;
 
+	printf("inside tokenize\n");
 	token = split_string(str, delim);
 	while (token)
 	{
 		count = _strlen(token);
-		tokens = _realloc((void *)tokens,(word * sizeof(char *)), ((word + 1) * sizeof(char *)));
+		oldsize = word * sizeof(char *);
+		newsize = (word + 2) * sizeof(char *);
+		tokens = _realloc(tokens, oldsize, newsize);
 		word++;
 		tokens[word - 1] = malloc(count);
 		for (i = 0; token[i]; i++)
 			tokens[word - 1][i] = token[i];
-
 		token = split_string(NULL, delim);
 	}
-	tokens = _realloc((void *)tokens, (word * sizeof(char *)), ((word + 1) * sizeof(char *)));
-	tokens[word - 1] = NULL;
+	tokens[word + 1] = NULL;
 	return (tokens);
 }
 
 
-char *split_string(char *str, const char *delim)
+char *split_string(char *str, char *delim)
 { 
-	static char **savptr;
+	static char *savptr;
 	int i, j;
 
 	if (str == NULL && savptr != NULL)
 	{
-		str = *savptr;
-		for (i = 0; *savptr[i]; i++)
+		str = savptr;
+		for (i = 0; savptr[i]; i++)
 		{
-			if (isDelimiter(*savptr[i]))
+			if (isDelimiter(savptr[i]))
 				continue;
 			else
 			{
-				*savptr = *savptr + i;
-				str = *savptr;
+				savptr = savptr + i;
+				str = savptr;
 				break;
 			}
 		}
-		for (i = 0; *savptr[i]; i++)
+		for (i = 0; savptr[i]; i++)
 		{
 			for (j = 0; delim[j]; j++)
 			{
-				if (*savptr[i] == delim[j])
+				if (savptr[i] == delim[j])
 				{
-					*savptr[i] = '\0';
-					*savptr = ((*savptr) + i + 1);
+					savptr[i] = '\0';
+					savptr = (savptr + i + 1);
 					return (str);
 				}
 			}
 			j = 0;
 		}
-		*savptr[i] = '\0';
+		savptr[i] = '\0';
 		savptr = NULL;
 		return (str);
 	}
@@ -92,19 +93,20 @@ char *split_string(char *str, const char *delim)
 				if (str[i] == delim[j])
 				{
 					str[i] = '\0';
-					*savptr = (str + i + 1);
+					//is this correct?
+					savptr = (str + i + 1);
 					return (str);
 				}
 			}
 			j = 0;
 		}
 		str[i] = '\0';
-		savptr = NULL;
 		return (str);
 	}
 	else
 	{
-		return (NULL);
+		str = NULL;
+		return (str);
 	}
 }
 

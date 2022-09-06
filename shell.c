@@ -22,7 +22,7 @@ int main(void)
 		printf("after cmd_check\n");
 		if (cmd == NULL)
 		{
-			perror("./hsh : no such file or directory");
+			perror("./hsh");
 			exit(EXIT_FAILURE);
 		}
 		if (cmd[0] == ' ')

@@ -14,6 +14,8 @@
 #define buffsize 1024
 
 extern char **environ;
+extern char **_environ;
+
 typedef struct list{
 	char *dir;
 	struct list *next;
@@ -44,7 +46,7 @@ void print(int, char *);
 int isDelimiter(char);
 char **_tokenize(char *);
 char **tokenize(char *);
-char *split_string(char *, const char*);
+char *split_string(char *, char*);
 void *_realloc(void *, size_t, size_t);
 
 #endif

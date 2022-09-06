@@ -2,13 +2,13 @@
 int environvar_cmp(const char *name, int *i, int *k)
 {
 	int isname = 0, len_name = _strlen2(name);
-	while (environ[*i])
+	while (_environ[*i])
 	{
-		if (lengthTillEqual(environ[*i]) == len_name)
+		if (lengthTillEqual(_environ[*i]) == len_name)
 		{
 			for (*k = 0; *k < len_name; (*k)++)
 			{
-				if (environ[*i][*k] != name[*k])
+				if (_environ[*i][*k] != name[*k])
 				{
 					isname = 0;
 					break;
@@ -33,22 +33,22 @@ int overwrite_function(int overwrite, int k, const char *value, int *i)
 	if (overwrite)
 	{
 		k += 1;
-		val_len = lengthAfterEqual(environ[*i], k);
+		val_len = lengthAfterEqual(_environ[*i], k);
 		valp_len = _strlen2(value);
 		if (val_len != valp_len)
 		{
 			oldsize = k + val_len;
 			newsize = k + valp_len;
-			environ[*i] = _realloc(environ[*i], oldsize, newsize);
-			if (environ[*i] == NULL)
+			_environ[*i] = _realloc(_environ[*i], oldsize, newsize);
+			if (_environ[*i] == NULL)
 				return (-1);
 		}
 		while (value[a])
 		{
-			environ[*i][k] = value[a];
+			_environ[*i][k] = value[a];
 			a++;k++;
 		}
-		environ[*i][k] = '\0';
+		_environ[*i][k] = '\0';
 		return (0);
 	}
 	else
@@ -57,35 +57,34 @@ int overwrite_function(int overwrite, int k, const char *value, int *i)
 
 int _unsetenv(const char *name)
 {
-	int i = 0, position = 0, j =0, k = 0, isname;
+	int i = 0, position = 0, j =0, k = 0, isname, f;
 	char **tmp;
 	if (!name)
 		return (-1);
 	isname = environvar_cmp(name, &i, &k);
-	while (environ[position++])
+	while (_environ[position++])
 		;
 	if (isname)
 	{
 		tmp = malloc(position * sizeof(char *));
-		for (position = 0; environ[position]; position++, j++)
+		for (position = 0; _environ[position]; position++, j++)
 		{
 			
 			if (position == i)
 			{
-				free(environ[i]);
+				free(_environ[i]);
 				j--;
 				continue;
 			}
-			tmp[j] = malloc(_strlen(environ[position]) + 1);
-			_strcpy(tmp[j], environ[position]);
+			tmp[j] = malloc(_strlen(_environ[position]) + 1);
+			_strcpy(tmp[j], _environ[position]);
 			
-			free(environ[position]);
+			free(_environ[position]);
 			
 		}
 		
 		tmp[j] = NULL;
-		free(environ);
-		environ = tmp;
+		_environ = tmp;
 		/*
 		i = 0;
 		while (tmp[i])
@@ -116,35 +115,35 @@ int _setenv(const char *name, const char *value ,__attribute__((unused)) int ove
 	else
 	{
 		i = 0;
-		while (environ[i])
+		while (_environ[i])
 		{
 			env_len++;
 			i++;
 		}
 		oldsize = (env_len + 1) * sizeof(char *);
 		newsize = (env_len + 2) * sizeof(char *);
-		environ = _realloc(environ, oldsize, newsize);
-		if (environ == NULL)
+		_environ = _realloc(_environ, oldsize, newsize);
+		if (_environ == NULL)
 			return (-1);
-		environ[env_len] = malloc(len_name + valp_len + 2);
-		if (environ[env_len] == NULL)
+		_environ[env_len] = malloc(len_name + valp_len + 2);
+		if (_environ[env_len] == NULL)
 			return (-1);
 		i = 0;
 		while (i < len_name)
 		{
-			environ[env_len][i] = name[i];
+			_environ[env_len][i] = name[i];
 			i++;
 		}
-		environ[env_len][i] = '=';
+		_environ[env_len][i] = '=';
 		i++;
 		while (a < valp_len)
 		{
-			environ[env_len][i] = value[a];
+			_environ[env_len][i] = value[a];
 			a++;
 			i++;
 		}
-		environ[env_len][i] = '\0';
-		environ[env_len + 1] = NULL;
+		_environ[env_len][i] = '\0';
+		_environ[env_len + 1] = NULL;
 		return (0);
 	}
 }

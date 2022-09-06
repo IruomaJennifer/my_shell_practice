@@ -49,7 +49,7 @@ void print(int fd, char *str)
 {
 	write(fd, str, _strlen(str));
 }
-/*
+
 int main(void)
 {
 	char **tokens;
@@ -60,7 +60,7 @@ int main(void)
 	print(STDOUT_FILENO, str);
 	print(STDOUT_FILENO, "\n");
 
-	tokens = _tokenize(str);
+	tokens = tokenize(str);
 	print(STDOUT_FILENO, "tokenization took place");
 	print(STDOUT_FILENO, "\n");
 
@@ -72,4 +72,4 @@ int main(void)
 
 	return (0);
 }
-*/
+
