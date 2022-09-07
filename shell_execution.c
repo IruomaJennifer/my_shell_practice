@@ -15,7 +15,7 @@ char *get_pathcmd(char *cmd)
 	char *buffer;
 
 	path = _getenv("PATH");
-	directories = tokenize_path(path);
+	directories = tokenize_bydelim(path, ':');
 	while (directories[index])
 	{
 		buffer = malloc(_strlen(directories[index]) + 1);
@@ -41,6 +41,9 @@ char *get_pathcmd(char *cmd)
 int shell_execute(char **cmd)
 {
 	int cmd_type, i = 0;
+	builtin commands[] = {
+		{"env", _printenv}, {"exit", end},
+		{NULL, NULL}};
 
 	cmd_type = cmdtype_check(cmd[0]);
 	if (cmd_type == INVALID)
@@ -49,7 +52,7 @@ int shell_execute(char **cmd)
 		print(STDERR_FILENO, _itoa(shell_calls));
 		print(STDERR_FILENO, ": ");
 		print(STDERR_FILENO, cmd[0]);
-		print(STDERR_FILENO, "File not found");
+		print(STDERR_FILENO, ": File not found\n");
 		return (0);
 	}
 	else if (cmd_type == NORMAL)
@@ -71,80 +74,6 @@ int shell_execute(char **cmd)
 			i++;
 		}
 	}
-	else
-	{
-		execute(path_cmd, cmd);
-		return (0);
-	}
-}
-
-/**
- * cmdtype_check - checks the command type passed to the shell
- * @cmd: the first argument passed to the shell
- * Return: an int telling the command type
- */
-int cmdtype_check(char *cmd)
-{
-	int i = 0;
-	char *builtins[] = {"env", "exit"};
-
-	if (cmd[0] == '/')
-		return (NORMAL);
-	while (i < 2)
-	{
-		if (_strcmp(cmd, builtins[i]) == 0)
-			return (BUILTIN);
-		i++;
-	}
-	path_cmd = get_pathcmd(cmd);
-	if (path_cmd != NULL)
-		return (PATH);
-	return (INVALID);
-}
-
-/**
- * execute - executes a command
- * @cmd: the command name
- * @args: the arguments that come with the command
- */
-void execute(char *cmd, char **args)
-{
-	pid_t cpid;
-	int status;
-
-	cpid = fork();
-	if (cpid == -1)
-	{
-		perror("./hsh");
-		exit(EXIT_FAILURE);
-	}
-	if (cpid == 0)
-	{
-		if (execve(cmd, args, NULL) == -1)
-		{
-			print(STDERR_FILENO, "./hsh: ");
-			print(STDERR_FILENO, _itoa(shell_calls));
-			print(STDERR_FILENO, ": ");
-			perror(args[0]);
-			exit(EXIT_FAILURE);
-		}
-	}
-	else
-		wait(&status);
-}
-
-/**
- * non_interactive - executes the non-interactive shell
- * Return: 0 or 1 if an exit command was encountered
- */
-int non_interactive(void)
-{
-	char *line;
-	char **tokens;
-	int rstatus;
-
-	line = _getline(STDIN_FILENO);
-	tokens = tokenize(line);
-	rstatus = shell_execute(tokens);
-	return (rstatus);
+	execute(path_cmd, cmd);
+	return (0);
 }

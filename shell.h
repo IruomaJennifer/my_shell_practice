@@ -24,13 +24,6 @@ typedef struct built_ins{
 	void (*handler)(char **cmd);
 }builtin;
 
-/*Built - in commands*/
-/*
-typedef struct list_dir{
-	char *dir;
-	struct list *next;
-}list_dir;
-*/
 /*Command types*/
 #define BUILTIN 1
 #define PATH 2
@@ -63,6 +56,7 @@ char **set_environ(void);
 int overwrite_function(int, int, const char *, int *);
 int environvar_cmp(const char *, int *, int *);
 char *_getenv(const char *);
+int add_environvar(int, int, const char *, const char *);
 int lengthAfterEqual(char *, int);
 int lengthTillEqual(char *);
 
@@ -77,17 +71,12 @@ int _strlen2(const char *);
 /*shell tokenizers*/
 char *_getline(int);
 char **tokenize_bydelim(char *, char);
-char **_tokenize(char *);
+char **tokenize_bydelim_end(char **, int, int);
 char **tokenize(char *);
-char *split_string(char *, char*);
+char *split_string(char *);
 
 /*shell memory */
 void *_realloc(void *, size_t, size_t);
-/*
-builtin commands[] = {
-	{"env", _printenv},
-	{"exit", end},
-	{NULL, NULL}};
-*/	
+	
 #endif
 

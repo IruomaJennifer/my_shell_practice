@@ -1,5 +1,8 @@
 #include "shell.h"
-
+/**
+ * main - entry point of shell
+ * Return: 0 on success and 1 on failure
+ */
 int main(void)
 {
 	char *line;
@@ -23,9 +26,8 @@ int main(void)
 		line = _getline(STDIN_FILENO);
 		tokens = tokenize(line);
 		rstatus = shell_execute(tokens);
-		printf("%d\n", shell_calls);
 		if (rstatus)
-			return(exit_status);
+			return (exit_status);
 	}
 	return (0);
 }

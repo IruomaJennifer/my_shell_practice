@@ -9,12 +9,11 @@
  */
 char **tokenize(char *str)
 {
-	char *delim = DELIM;
 	int bufsize = BUFSIZE, pos = 0, oldsize;
 	char *token;
-	char **tokens = malloc(bufsize *sizeof(char *));
+	char **tokens = malloc(bufsize * sizeof(char *));
 
-	token = split_string(str, delim);
+	token = split_string(str);
 
 	while (token)
 	{
@@ -25,7 +24,7 @@ char **tokenize(char *str)
 			bufsize += BUFSIZE;
 			tokens = _realloc(tokens, oldsize, bufsize);
 		}
-		token = split_string(NULL, delim);
+		token = split_string(NULL);
 	}
 	tokens[pos] = NULL;
 	return (tokens);
@@ -34,12 +33,11 @@ char **tokenize(char *str)
 /**
  * split_string - function to split a string on at a time
  * @str: string to be split
- * @delim: delimiters
  * Return: a string token
  */
-char *split_string(char *str, char *delim)
-{ 
-	static char *input = NULL;
+char *split_string(char *str)
+{
+	static char *input;
 	char *res;
 	int i = 0, j;
 
@@ -58,11 +56,8 @@ char *split_string(char *str, char *delim)
 		}
 	}
 	while (input[i])
-	{
-		if (isDelimiter(input[i]))
+		if (isDelimiter(input[i++]))
 			break;
-		i++;
-	}
 	res = malloc((i + 1) * sizeof(char));
 	for (i = 0; input[i]; i++)
 	{
@@ -81,7 +76,7 @@ char *split_string(char *str, char *delim)
 }
 
 /**
- * tokenize_path - tokenizes based on a delimiter
+ * tokenize_bydelim - tokenizes based on a delimiter
  * @str: the string to be tokenized
  * @delim: a delimiter
  * Return: an array of strings
@@ -128,9 +123,7 @@ char **tokenize_bydelim(char *str, char delim)
 		i++;
 		a++;
 	}
-	tokens[k][a] = '\0';
-	tokens[k + 1] = NULL;
-	return (tokens);
+	return (tokenize_bydelim_end(tokens, k, a));
 }
 
 /**
@@ -140,7 +133,8 @@ char **tokenize_bydelim(char *str, char delim)
  */
 char *_getline(int fd)
 {
-	ssize_t cnt; size_t i = 0, oldsize, newsize = 0;
+	ssize_t cnt;
+	size_t i = 0, oldsize, newsize = 0;
 	char c;
 	char *lineptr;
 
