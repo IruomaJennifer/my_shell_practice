@@ -6,7 +6,6 @@
  *
  * Return: number of bytes read or -1 on failure
  */
-
 char *_getline(int fd)
 {
 	ssize_t cnt; size_t i = 0, oldsize, newsize = 0;
@@ -41,13 +40,7 @@ char *_getline(int fd)
 			lineptr = _realloc(lineptr, oldsize, newsize);
 			oldsize = newsize;
 		}
-
 	}
-}
-
-void print(int fd, char *str)
-{
-	write(fd, str, _strlen(str));
 }
 
 int main(void)

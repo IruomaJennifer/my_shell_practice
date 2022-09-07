@@ -33,7 +33,7 @@ char **set_environ(void)
  * @value: name of the environment variable
  * Return: 0 on success and -1 on failure
  */
-int overwrite_function(int overwrite, int k, const char *value, int *i)
+/*int overwrite_function(int overwrite, int k, const char *value, int *i)
 {
 	int val_len, valp_len, oldsize, newsize, a = 0;
 
@@ -62,7 +62,7 @@ int overwrite_function(int overwrite, int k, const char *value, int *i)
 	}
 	else
 		return (0);
-}
+}*/
 
 /**
  * environvar_cmp - checks if a variable exists in the current environment
@@ -71,7 +71,7 @@ int overwrite_function(int overwrite, int k, const char *value, int *i)
  * @k: position a character in a variable name
  * Return: 0 if variable does not exist and 1 if it does
  */
-int environvar_cmp(const char *name, int *i, int *k)
+/*int environvar_cmp(const char *name, int *i, int *k)
 {
 	int isname = 0, len_name = _strlen2(name);
 
@@ -98,7 +98,7 @@ int environvar_cmp(const char *name, int *i, int *k)
 		(*i)++;
 	}
 	return (isname);
-}
+}*/
 
 /**
  * _getenv - gets the value of any environment variable specified

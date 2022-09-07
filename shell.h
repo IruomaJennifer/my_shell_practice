@@ -41,6 +41,8 @@ typedef struct list_dir{
 char *_itoa(int i);
 int getpower_ten(int);
 int _atoi(char *);
+int isDelimiter(char);
+void print(int, char *);
 
 /*shell builtins*/
 /*correct _environ here*/
@@ -59,7 +61,7 @@ int cmdtype_check(char *);
 /*shell environment*/
 char **set_environ(void);
 int overwrite_function(int, int, const char *, int *);
-int environ_cmp(const char *, int *, int *);
+int environvar_cmp(const char *, int *, int *);
 char *_getenv(const char *);
 int lengthAfterEqual(char *, int);
 int lengthTillEqual(char *);
@@ -71,15 +73,12 @@ int _strcmp(char *,char *);
 char *_strcpy(char *, char *);
 char *_strcat(char *, char *);
 int _strlen2(const char *);
-void print(int, char *);
 
 /*shell tokenizers*/
 char *_getline(int);
-int isDelimiter(char);
-char **tokenize_path(char *);
+char **tokenize_bydelim(char *, char);
 char **_tokenize(char *);
 char **tokenize(char *);
-char *first_time(char *, const char *);
 char *split_string(char *, char*);
 
 /*shell memory */
@@ -89,6 +88,6 @@ builtin commands[] = {
 	{"env", _printenv},
 	{"exit", end},
 	{NULL, NULL}};
-*/
+*/	
 #endif
 
