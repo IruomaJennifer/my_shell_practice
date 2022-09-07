@@ -8,13 +8,16 @@ void execute(char *cmd, char **args)
 	cpid = fork();
 	if (cpid == -1)
 	{
-		perror("Failed");
+		perror("fork");
 		exit(EXIT_FAILURE);
 	}
 	if (cpid == 0)
 	{
 		if (execve(cmd, args, environ) == -1)
 		{
+			print(STDERR_FILENO,"./hsh: ");
+			print(STDERR_FILENO, _itoa(shell_calls));
+			print(STDERR_FILENO, ": ");
 			perror(args[0]);
 			exit(EXIT_FAILURE);
 		}

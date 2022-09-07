@@ -17,7 +17,7 @@ char **tokenize(char *str)
 {
 	char *delim = DELIM;
 	char **tokens = NULL, *token;
-	int count, i, word = 0, oldsize, newsize, j;
+	int count, i, word = 0, oldsize, newsize;
 
 	printf("inside tokenize\n");
 	token = split_string(str, delim);
@@ -76,6 +76,8 @@ char *split_string(char *str, char *delim)
 	}
 	else if (str != NULL)
 	{
+		savptr = first_time(str, delim);
+		/*
 		for (i = 0; str[i]; i++)
 		{
 			if (isDelimiter(str[i]))
@@ -93,7 +95,6 @@ char *split_string(char *str, char *delim)
 				if (str[i] == delim[j])
 				{
 					str[i] = '\0';
-					//is this correct?
 					savptr = (str + i + 1);
 					return (str);
 				}
@@ -102,11 +103,44 @@ char *split_string(char *str, char *delim)
 		}
 		str[i] = '\0';
 		return (str);
+		*/
 	}
 	else
 	{
 		str = NULL;
 		return (str);
 	}
+}
+
+char *first_time(char *str, const char *delim)
+{
+	int i, j;
+	char *savptr = NULL;
+
+	for (i = 0; str[i]; i++)
+	{
+		if (isDelimiter(str[i]))
+			continue;
+		else
+		{
+			str = str + i;
+			break;
+		}
+	}
+	for (i = 0; str[i]; i++)
+	{
+		for (j = 0; delim[j]; j++)
+		{
+			if (str[i] == delim[j])
+			{
+				str[i] = '\0';
+				savptr = (str + i + 1);
+				
+			}
+		}
+		j = 0;
+	}
+	str[i] = '\0';
+	return (savptr);
 }
 

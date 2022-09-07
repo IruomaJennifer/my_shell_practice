@@ -15,39 +15,80 @@
 
 extern char **environ;
 extern char **_environ;
+char *path_cmd;
+int exit_status;
+int shell_calls;
 
-typedef struct list{
+typedef struct built_ins{
+	char *name;
+	void (*handler)(char **cmd);
+}builtin;
+
+/*Built - in commands*/
+/*
+typedef struct list_dir{
 	char *dir;
 	struct list *next;
 }list_dir;
+*/
+/*Command types*/
+#define BUILTIN 1
+#define PATH 2
+#define NORMAL 3
+#define INVALID 4
 
-int _strcmp(char *, char *);
-void _printenv(void);
-void non_interactive(void);
-char *cmd_check(char *);
-char *get_pathcmd(char *cmd);
-char *_strcat(char *, char *);
-char *_strcpy(char *, char *);
-char **set_environ(void);
+/*shell utilities*/
+char *_itoa(int i);
+int getpower_ten(int);
+int _atoi(char *);
+
+/*shell builtins*/
+/*correct _environ here*/
+void _printenv(char **);
+void end(char **);
+int _setenv(const char *, const char *, int);
 int _unsetenv(const char *);
+
+/*shell execution*/
+int non_interactive(void);
+int shell_execute(char **);
+void execute(char *, char **);
+char *get_pathcmd(char *cmd);
+int cmdtype_check(char *);
+
+/*shell environment*/
+char **set_environ(void);
 int overwrite_function(int, int, const char *, int *);
 int environ_cmp(const char *, int *, int *);
-int _setenv(const char *, const char *, int);
-int lengthAfterEqual(char *, int);
-list_dir *link_dir(char **);
-char **tokenize_path(char *);
-int lengthTillEqual(char *);
 char *_getenv(const char *);
-void execute(char *, char **);
-char *_getline(int);
+int lengthAfterEqual(char *, int);
+int lengthTillEqual(char *);
+
+/*list_dir *link_dir(char **);*/
+/*string functions*/
 int _strlen(char *);
+int _strcmp(char *,char *);
+char *_strcpy(char *, char *);
+char *_strcat(char *, char *);
 int _strlen2(const char *);
 void print(int, char *);
+
+/*shell tokenizers*/
+char *_getline(int);
 int isDelimiter(char);
+char **tokenize_path(char *);
 char **_tokenize(char *);
 char **tokenize(char *);
+char *first_time(char *, const char *);
 char *split_string(char *, char*);
-void *_realloc(void *, size_t, size_t);
 
+/*shell memory */
+void *_realloc(void *, size_t, size_t);
+/*
+builtin commands[] = {
+	{"env", _printenv},
+	{"exit", end},
+	{NULL, NULL}};
+*/
 #endif
 
